@@ -1,0 +1,247 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to AdGuard Home",
+        "description": "Kid Watch reads AdGuard Home's query log to see which apps and sites each child uses, and changes AdGuard's per-device settings when you press a control.",
+        "data": {
+          "host": "AdGuard Home address",
+          "port": "Port",
+          "username": "Username",
+          "password": "Password",
+          "ssl": "Uses HTTPS",
+          "verify_ssl": "Check the HTTPS certificate"
+        },
+        "data_description": {
+          "host": "IP address or hostname, without http://",
+          "port": "The port of AdGuard Home's web page (often 80 or 3000)."
+        }
+      },
+      "child": {
+        "title": "Add child {count}",
+        "description": "Who are you adding, and which devices and TVs are theirs?",
+        "data": {
+          "name": "Name",
+          "color": "Colour on the card",
+          "clients": "Devices",
+          "tvs": "TVs",
+          "plex_user": "Plex profile",
+          "age_limit": "TV age limit",
+          "budget": "Daily screen time",
+          "bedtime": "Bedtime",
+          "wake_time": "Wake-up time"
+        },
+        "data_description": {
+          "clients": "From AdGuard Home's client list. Name devices in AdGuard first to make them easy to spot, or pick them by address.",
+          "tvs": "TVs and streaming boxes in Home Assistant. Anything playing on these counts for this child.",
+          "plex_user": "Their Plex home profile. Whatever they watch on Plex counts for them, on any TV.",
+          "age_limit": "You get an alert when a show above this rating starts (UK ratings; US ratings are matched by age).",
+          "budget": "Minutes a day. You get an alert when it's used up. 0 means no budget.",
+          "bedtime": "Internet pauses at this time while the Bedtime switch is on.",
+          "wake_time": "Internet comes back at this time after a bedtime pause."
+        }
+      },
+      "more": {
+        "title": "{name} added",
+        "menu_options": {
+          "child": "Add another child",
+          "alerts": "Next: alerts"
+        }
+      },
+      "alerts": {
+        "title": "Alerts",
+        "data": {
+          "notify_service": "Send alerts to",
+          "alerts": "Alert me when a child…",
+          "services": "App block buttons"
+        },
+        "data_description": {
+          "notify_service": "Any notify service: the Home Assistant phone app, Gotify, Telegram, email…",
+          "services": "Each one becomes a block switch for every child."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Can't reach AdGuard Home. Check the address and port.",
+      "invalid_auth": "AdGuard Home didn't accept the username or password.",
+      "name_required": "Give the child a name.",
+      "name_taken": "There's already a child with that name.",
+      "client_taken": "One of these devices already belongs to another child.",
+      "nothing_to_watch": "Pick at least one device, TV or Plex profile."
+    },
+    "abort": {
+      "already_configured": "This AdGuard Home is already set up in Kid Watch."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Kid Watch options",
+        "menu_options": {
+          "add_child": "Add a child",
+          "edit_pick": "Edit a child",
+          "remove_child": "Remove a child",
+          "alerts": "Alerts and block buttons",
+          "connection": "Connection"
+        }
+      },
+      "add_child": {
+        "title": "Add a child",
+        "data": {
+          "name": "Name",
+          "color": "Colour on the card",
+          "clients": "Devices",
+          "tvs": "TVs",
+          "plex_user": "Plex profile",
+          "age_limit": "TV age limit",
+          "budget": "Daily screen time",
+          "bedtime": "Bedtime",
+          "wake_time": "Wake-up time"
+        },
+        "data_description": {
+          "clients": "From AdGuard Home's client list. Name devices in AdGuard first to make them easy to spot, or pick them by address.",
+          "tvs": "TVs and streaming boxes in Home Assistant. Anything playing on these counts for this child.",
+          "plex_user": "Their Plex home profile. Whatever they watch on Plex counts for them, on any TV.",
+          "age_limit": "You get an alert when a show above this rating starts (UK ratings; US ratings are matched by age).",
+          "budget": "Minutes a day. You get an alert when it's used up. 0 means no budget.",
+          "bedtime": "Internet pauses at this time while the Bedtime switch is on.",
+          "wake_time": "Internet comes back at this time after a bedtime pause."
+        }
+      },
+      "edit_pick": {
+        "title": "Edit a child",
+        "data": {
+          "child": "Child"
+        }
+      },
+      "edit_child": {
+        "title": "Edit {name}",
+        "data": {
+          "name": "Name",
+          "color": "Colour on the card",
+          "clients": "Devices",
+          "tvs": "TVs",
+          "plex_user": "Plex profile",
+          "age_limit": "TV age limit",
+          "budget": "Daily screen time",
+          "bedtime": "Bedtime",
+          "wake_time": "Wake-up time"
+        },
+        "data_description": {
+          "clients": "From AdGuard Home's client list. Name devices in AdGuard first to make them easy to spot, or pick them by address.",
+          "tvs": "TVs and streaming boxes in Home Assistant. Anything playing on these counts for this child.",
+          "plex_user": "Their Plex home profile. Whatever they watch on Plex counts for them, on any TV.",
+          "age_limit": "You get an alert when a show above this rating starts (UK ratings; US ratings are matched by age).",
+          "budget": "Minutes a day. You get an alert when it's used up. 0 means no budget.",
+          "bedtime": "Internet pauses at this time while the Bedtime switch is on.",
+          "wake_time": "Internet comes back at this time after a bedtime pause."
+        }
+      },
+      "remove_child": {
+        "title": "Remove a child",
+        "description": "Their sensors, switches and today's history are removed. Their AdGuard settings stay as they are.",
+        "data": {
+          "child": "Child"
+        }
+      },
+      "alerts": {
+        "title": "Alerts and block buttons",
+        "data": {
+          "notify_service": "Send alerts to",
+          "alerts": "Alert me when a child…",
+          "services": "App block buttons"
+        },
+        "data_description": {
+          "notify_service": "Any notify service: the Home Assistant phone app, Gotify, Telegram, email…",
+          "services": "Each one becomes a block switch for every child."
+        }
+      },
+      "connection": {
+        "title": "Connection",
+        "data": {
+          "host": "AdGuard Home address",
+          "port": "Port",
+          "username": "Username",
+          "password": "Password",
+          "ssl": "Uses HTTPS",
+          "verify_ssl": "Check the HTTPS certificate"
+        },
+        "data_description": {
+          "host": "IP address or hostname, without http://",
+          "port": "The port of AdGuard Home's web page (often 80 or 3000)."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Can't reach AdGuard Home. Check the address and port.",
+      "invalid_auth": "AdGuard Home didn't accept the username or password.",
+      "name_required": "Give the child a name.",
+      "name_taken": "There's already a child with that name.",
+      "client_taken": "One of these devices already belongs to another child.",
+      "nothing_to_watch": "Pick at least one device, TV or Plex profile."
+    },
+    "abort": {
+      "cannot_connect": "Can't reach AdGuard Home. Check the address and port."
+    }
+  },
+  "selector": {
+    "color": {
+      "options": {
+        "pink": "Pink",
+        "blue": "Blue",
+        "green": "Green",
+        "orange": "Orange",
+        "purple": "Purple",
+        "teal": "Teal"
+      }
+    },
+    "age_limit": {
+      "options": {
+        "U": "U (everyone)",
+        "PG": "PG",
+        "12": "12",
+        "15": "15",
+        "18": "18 (no limit)"
+      }
+    },
+    "alert_type": {
+      "options": {
+        "site": "…tries a blocked adult or dangerous site",
+        "tv": "…starts a TV show above their age limit",
+        "blocked": "…tries an app you've blocked",
+        "budget": "…uses up their screen time",
+        "bedtime": "…is paused for bedtime"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Status"
+      },
+      "screen_time": {
+        "name": "Screen time today"
+      },
+      "alerts": {
+        "name": "Alerts today"
+      }
+    },
+    "switch": {
+      "pause": {
+        "name": "Pause internet"
+      },
+      "bedtime": {
+        "name": "Bedtime"
+      },
+      "safesearch": {
+        "name": "SafeSearch"
+      },
+      "stop_over_age": {
+        "name": "Stop over-age TV"
+      },
+      "block_service": {
+        "name": "Block {service}"
+      }
+    }
+  }
+}
