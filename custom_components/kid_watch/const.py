@@ -3,7 +3,7 @@
 from datetime import timedelta
 
 DOMAIN = "kid_watch"
-VERSION = "0.1.1"
+VERSION = "0.2.0"
 
 PLATFORMS = ["sensor", "switch"]
 SCAN_INTERVAL = timedelta(seconds=60)

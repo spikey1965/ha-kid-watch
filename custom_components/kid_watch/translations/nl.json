@@ -1,0 +1,247 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Verbinden met AdGuard Home",
+        "description": "Kid Watch leest het querylogboek van AdGuard Home om te zien welke apps en sites elk kind gebruikt, en past de instellingen per apparaat in AdGuard aan als je op een knop drukt.",
+        "data": {
+          "host": "Adres van AdGuard Home",
+          "port": "Poort",
+          "username": "Gebruikersnaam",
+          "password": "Wachtwoord",
+          "ssl": "Gebruikt HTTPS",
+          "verify_ssl": "HTTPS-certificaat controleren"
+        },
+        "data_description": {
+          "host": "IP-adres of hostnaam, zonder http://",
+          "port": "De poort van de webpagina van AdGuard Home (vaak 80 of 3000)."
+        }
+      },
+      "child": {
+        "title": "Kind {count} toevoegen",
+        "description": "Wie voeg je toe, en welke apparaten en tv's zijn van dit kind?",
+        "data": {
+          "name": "Naam",
+          "color": "Kleur op de kaart",
+          "clients": "Apparaten",
+          "tvs": "Tv's",
+          "plex_user": "Plex-profiel",
+          "age_limit": "Leeftijdsgrens tv",
+          "budget": "Schermtijd per dag",
+          "bedtime": "Bedtijd",
+          "wake_time": "Opstaantijd"
+        },
+        "data_description": {
+          "clients": "Uit de clientlijst van AdGuard Home. Geef apparaten eerst een naam in AdGuard zodat je ze makkelijk vindt, of kies ze op adres.",
+          "tvs": "Tv's en streamingboxen in Home Assistant. Alles wat hierop speelt telt voor dit kind.",
+          "plex_user": "Het Plex Home-profiel van het kind. Alles wat het op Plex kijkt telt voor dit kind, op elke tv.",
+          "age_limit": "Je krijgt een melding als er een programma boven deze classificatie begint (Britse classificaties; Amerikaanse worden op leeftijd vergeleken).",
+          "budget": "Minuten per dag. Je krijgt een melding als ze op zijn. 0 betekent geen limiet.",
+          "bedtime": "Het internet pauzeert op dit tijdstip zolang de schakelaar Bedtijd aan staat.",
+          "wake_time": "Het internet komt op dit tijdstip terug na een bedtijdpauze."
+        }
+      },
+      "more": {
+        "title": "Kind toegevoegd",
+        "menu_options": {
+          "child": "Nog een kind toevoegen",
+          "alerts": "Volgende: meldingen"
+        }
+      },
+      "alerts": {
+        "title": "Meldingen",
+        "data": {
+          "notify_service": "Meldingen sturen naar",
+          "alerts": "Meld het als een kind…",
+          "services": "Knoppen om apps te blokkeren"
+        },
+        "data_description": {
+          "notify_service": "Elke meldingsdienst: de Home Assistant-app, Gotify, Telegram, e-mail…",
+          "services": "Elke knop wordt een blokkeerschakelaar voor elk kind."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "AdGuard Home is niet bereikbaar. Controleer het adres en de poort.",
+      "invalid_auth": "AdGuard Home accepteerde de gebruikersnaam of het wachtwoord niet.",
+      "name_required": "Geef het kind een naam.",
+      "name_taken": "Er is al een kind met die naam.",
+      "client_taken": "Een van deze apparaten hoort al bij een ander kind.",
+      "nothing_to_watch": "Kies minstens één apparaat, tv of Plex-profiel."
+    },
+    "abort": {
+      "already_configured": "Deze AdGuard Home is al ingesteld in Kid Watch."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Kid Watch-opties",
+        "menu_options": {
+          "add_child": "Een kind toevoegen",
+          "edit_pick": "Een kind bewerken",
+          "remove_child": "Een kind verwijderen",
+          "alerts": "Meldingen en blokkeerknoppen",
+          "connection": "Verbinding"
+        }
+      },
+      "add_child": {
+        "title": "Een kind toevoegen",
+        "data": {
+          "name": "Naam",
+          "color": "Kleur op de kaart",
+          "clients": "Apparaten",
+          "tvs": "Tv's",
+          "plex_user": "Plex-profiel",
+          "age_limit": "Leeftijdsgrens tv",
+          "budget": "Schermtijd per dag",
+          "bedtime": "Bedtijd",
+          "wake_time": "Opstaantijd"
+        },
+        "data_description": {
+          "clients": "Uit de clientlijst van AdGuard Home. Geef apparaten eerst een naam in AdGuard zodat je ze makkelijk vindt, of kies ze op adres.",
+          "tvs": "Tv's en streamingboxen in Home Assistant. Alles wat hierop speelt telt voor dit kind.",
+          "plex_user": "Het Plex Home-profiel van het kind. Alles wat het op Plex kijkt telt voor dit kind, op elke tv.",
+          "age_limit": "Je krijgt een melding als er een programma boven deze classificatie begint (Britse classificaties; Amerikaanse worden op leeftijd vergeleken).",
+          "budget": "Minuten per dag. Je krijgt een melding als ze op zijn. 0 betekent geen limiet.",
+          "bedtime": "Het internet pauzeert op dit tijdstip zolang de schakelaar Bedtijd aan staat.",
+          "wake_time": "Het internet komt op dit tijdstip terug na een bedtijdpauze."
+        }
+      },
+      "edit_pick": {
+        "title": "Een kind bewerken",
+        "data": {
+          "child": "Kind"
+        }
+      },
+      "edit_child": {
+        "title": "{name} bewerken",
+        "data": {
+          "name": "Naam",
+          "color": "Kleur op de kaart",
+          "clients": "Apparaten",
+          "tvs": "Tv's",
+          "plex_user": "Plex-profiel",
+          "age_limit": "Leeftijdsgrens tv",
+          "budget": "Schermtijd per dag",
+          "bedtime": "Bedtijd",
+          "wake_time": "Opstaantijd"
+        },
+        "data_description": {
+          "clients": "Uit de clientlijst van AdGuard Home. Geef apparaten eerst een naam in AdGuard zodat je ze makkelijk vindt, of kies ze op adres.",
+          "tvs": "Tv's en streamingboxen in Home Assistant. Alles wat hierop speelt telt voor dit kind.",
+          "plex_user": "Het Plex Home-profiel van het kind. Alles wat het op Plex kijkt telt voor dit kind, op elke tv.",
+          "age_limit": "Je krijgt een melding als er een programma boven deze classificatie begint (Britse classificaties; Amerikaanse worden op leeftijd vergeleken).",
+          "budget": "Minuten per dag. Je krijgt een melding als ze op zijn. 0 betekent geen limiet.",
+          "bedtime": "Het internet pauzeert op dit tijdstip zolang de schakelaar Bedtijd aan staat.",
+          "wake_time": "Het internet komt op dit tijdstip terug na een bedtijdpauze."
+        }
+      },
+      "remove_child": {
+        "title": "Een kind verwijderen",
+        "description": "De sensoren, schakelaars en de geschiedenis van vandaag worden verwijderd. De instellingen in AdGuard blijven zoals ze zijn.",
+        "data": {
+          "child": "Kind"
+        }
+      },
+      "alerts": {
+        "title": "Meldingen en blokkeerknoppen",
+        "data": {
+          "notify_service": "Meldingen sturen naar",
+          "alerts": "Meld het als een kind…",
+          "services": "Knoppen om apps te blokkeren"
+        },
+        "data_description": {
+          "notify_service": "Elke meldingsdienst: de Home Assistant-app, Gotify, Telegram, e-mail…",
+          "services": "Elke knop wordt een blokkeerschakelaar voor elk kind."
+        }
+      },
+      "connection": {
+        "title": "Verbinding",
+        "data": {
+          "host": "Adres van AdGuard Home",
+          "port": "Poort",
+          "username": "Gebruikersnaam",
+          "password": "Wachtwoord",
+          "ssl": "Gebruikt HTTPS",
+          "verify_ssl": "HTTPS-certificaat controleren"
+        },
+        "data_description": {
+          "host": "IP-adres of hostnaam, zonder http://",
+          "port": "De poort van de webpagina van AdGuard Home (vaak 80 of 3000)."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "AdGuard Home is niet bereikbaar. Controleer het adres en de poort.",
+      "invalid_auth": "AdGuard Home accepteerde de gebruikersnaam of het wachtwoord niet.",
+      "name_required": "Geef het kind een naam.",
+      "name_taken": "Er is al een kind met die naam.",
+      "client_taken": "Een van deze apparaten hoort al bij een ander kind.",
+      "nothing_to_watch": "Kies minstens één apparaat, tv of Plex-profiel."
+    },
+    "abort": {
+      "cannot_connect": "AdGuard Home is niet bereikbaar. Controleer het adres en de poort."
+    }
+  },
+  "selector": {
+    "color": {
+      "options": {
+        "pink": "Roze",
+        "blue": "Blauw",
+        "green": "Groen",
+        "orange": "Oranje",
+        "purple": "Paars",
+        "teal": "Turquoise"
+      }
+    },
+    "age_limit": {
+      "options": {
+        "U": "U (iedereen)",
+        "PG": "PG",
+        "12": "12",
+        "15": "15",
+        "18": "18 (geen grens)"
+      }
+    },
+    "alert_type": {
+      "options": {
+        "site": "…een geblokkeerde site voor volwassenen of gevaarlijke site probeert",
+        "tv": "…een programma boven de leeftijdsgrens start",
+        "blocked": "…een app probeert die je hebt geblokkeerd",
+        "budget": "…de schermtijd heeft opgebruikt",
+        "bedtime": "…gepauzeerd wordt voor bedtijd"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Status"
+      },
+      "screen_time": {
+        "name": "Schermtijd vandaag"
+      },
+      "alerts": {
+        "name": "Meldingen vandaag"
+      }
+    },
+    "switch": {
+      "pause": {
+        "name": "Internet pauzeren"
+      },
+      "bedtime": {
+        "name": "Bedtijd"
+      },
+      "safesearch": {
+        "name": "SafeSearch"
+      },
+      "stop_over_age": {
+        "name": "Tv boven leeftijdsgrens stoppen"
+      },
+      "block_service": {
+        "name": "{service} blokkeren"
+      }
+    }
+  }
+}

@@ -20,6 +20,7 @@ from homeassistant.util import dt as dt_util
 
 from .adguard import AdGuardClient, AdGuardError, escape_client
 from .catalog import classify, is_noise, over_limit, site_of
+from .texts import devices, text
 from .const import (
     ALERT_DEDUPE,
     C_AGE,
@@ -296,16 +297,18 @@ class KidWatchCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
         minute = local.hour * 60 + local.minute
         child = self.child(cid)
         if reason in ("FilteredParental", "FilteredSafeBrowsing"):
-            what = "adult content" if reason == "FilteredParental" else "a dangerous site"
-            self._alert(cid, "site", site_of(domain), local, f"⚠ {child[C_NAME]} tried to open a blocked site",
-                        f"{site_of(domain)} on {device} ({what}). AdGuard blocked it.", "Blocked site", f"{site_of(domain)} · {device} · {what}")
+            what = text(self.hass, "adult" if reason == "FilteredParental" else "danger")
+            site = site_of(domain)
+            self._alert(cid, "site", site, local, text(self.hass, "site_title", child=child[C_NAME]),
+                        text(self.hass, "site_msg", site=site, device=device, what=what), text(self.hass, "site_short"), f"{site} · {device} · {what}")
             return
         if reason == "FilteredBlockedService":
             if self._is_paused(cid):
                 return
             sid = e.get("service_name")
             svc = self.service_names.get(sid, sid) if sid else site_of(domain)
-            self._alert(cid, "blocked", svc, local, f"{child[C_NAME]} tried {svc}", f"Blocked on {device}.", f"{svc} (blocked)", f"{device} · {svc} is blocked")
+            self._alert(cid, "blocked", svc, local, text(self.hass, "blocked_title", child=child[C_NAME], svc=svc), text(self.hass, "blocked_msg", device=device),
+                        text(self.hass, "blocked_short", svc=svc), f"{device} · " + text(self.hass, "blocked_detail", svc=svc))
             return
         if reason.startswith("Filtered"):
             return
@@ -335,7 +338,7 @@ class KidWatchCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
             return None
         a = st.attributes
         series = a.get("media_series_title")
-        title = a.get("media_title") or a.get("app_name") or "Something"
+        title = a.get("media_title") or a.get("app_name") or text(self.hass, "something")
         episode = None
         if series:
             if a.get("media_season") is not None and a.get("media_episode") is not None:
@@ -414,11 +417,13 @@ class KidWatchCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
             if mid not in day["alerted_media"]:
                 day["alerted_media"].append(mid)
                 stop = flags["stop_over_age"] and not tv["paused"]
-                msg = f"On {tv['tv']}{' (' + tv['app'] + ')' if tv['app'] else ''}. Their limit is {child.get(C_AGE)}."
+                where = f"{tv['tv']} ({tv['app']})" if tv["app"] else tv["tv"]
+                msg = text(self.hass, "tv_msg", tv=where, limit=child.get(C_AGE))
                 if stop:
-                    msg += " The TV was stopped."
-                self._alert(cid, "tv", mid, now, f"⚠ {child[C_NAME]} is watching {tv['show']} ({rating})", msg,
-                            f"{tv['title']} ({rating})", f"{tv['app']} · {tv['tv']} · above {child[C_NAME]}'s limit ({child.get(C_AGE)})")
+                    msg += " " + text(self.hass, "tv_stopped")
+                over = text(self.hass, "tv_over", child=child[C_NAME], limit=child.get(C_AGE))
+                self._alert(cid, "tv", mid, now, text(self.hass, "tv_title", child=child[C_NAME], show=tv["show"], rating=rating), msg,
+                            f"{tv['title']} ({rating})", " · ".join(x for x in (tv["app"], tv["tv"], over) if x))
                 if stop:
                     await self._stop_tv(tv["entity_id"])
                     self.hass.async_create_task(self.async_request_refresh())
@@ -433,8 +438,9 @@ class KidWatchCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
         budget = int(child.get(C_BUDGET) or 0)
         if budget and total >= budget and not day["budget_alerted"]:
             day["budget_alerted"] = True
-            self._alert(cid, "budget", "budget", now, f"{child[C_NAME]} hit their screen-time budget",
-                        f"{total} minutes used today." + (f" Now: {current['title']}." if current else ""), "Screen-time budget used up", f"{total} of {budget} minutes")
+            msg = text(self.hass, "budget_msg", total=total) + (" " + text(self.hass, "budget_now", title=current["title"]) if current else "")
+            self._alert(cid, "budget", "budget", now, text(self.hass, "budget_title", child=child[C_NAME]), msg,
+                        text(self.hass, "budget_short"), text(self.hass, "budget_detail", total=total, budget=budget))
 
         by_cat: dict[str, int] = {}
         for cat in day["minutes"].values():
@@ -504,9 +510,9 @@ class KidWatchCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
         # bedtime's own alert already puts "Bedtime" on the timeline
         if cid in self._kids and not (on and by_bedtime):
             if on:
-                self._timeline(cid, now, "paused", "Internet paused by a parent", f"{len(names)} device" + ("" if len(names) == 1 else "s"))
+                self._timeline(cid, now, "paused", text(self.hass, "paused_parent"), devices(self.hass, len(names)))
             else:
-                self._timeline(cid, now, "paused", "Internet resumed", "morning" if by_bedtime else "by a parent")
+                self._timeline(cid, now, "paused", text(self.hass, "resumed"), text(self.hass, "morning" if by_bedtime else "by_parent"))
         self._save()
         await self.async_refresh()
 
@@ -603,8 +609,9 @@ class KidWatchCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
         await self.async_set_pause(cid, True, by_bedtime=True)
         child = self.child(cid)
         if cid in self._kids:
-            self._alert(cid, "bedtime", dt_util.now().isoformat(), dt_util.now(), f"Bedtime for {child[C_NAME]}",
-                        f"Internet paused on {child[C_NAME]}'s devices until {str(child.get(C_WAKE, ''))[:5]}.", "Bedtime", "internet paused")
+            self._alert(cid, "bedtime", dt_util.now().isoformat(), dt_util.now(), text(self.hass, "bedtime_title", child=child[C_NAME]),
+                        text(self.hass, "bedtime_msg", child=child[C_NAME], wake=str(child.get(C_WAKE, ""))[:5]),
+                        text(self.hass, "bedtime_short"), text(self.hass, "bedtime_detail"))
 
     async def _wake(self, cid: str) -> None:
         if self.flags(cid)["paused_by_bedtime"] and self._is_paused(cid):

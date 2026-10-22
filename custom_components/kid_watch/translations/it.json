@@ -1,0 +1,247 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Collegati ad AdGuard Home",
+        "description": "Kid Watch legge il registro delle query di AdGuard Home per vedere quali app e siti usa ogni bambino, e modifica le impostazioni di AdGuard per dispositivo quando premi un comando.",
+        "data": {
+          "host": "Indirizzo di AdGuard Home",
+          "port": "Porta",
+          "username": "Nome utente",
+          "password": "Password",
+          "ssl": "Usa HTTPS",
+          "verify_ssl": "Verifica il certificato HTTPS"
+        },
+        "data_description": {
+          "host": "Indirizzo IP o nome host, senza http://",
+          "port": "La porta della pagina web di AdGuard Home (spesso 80 o 3000)."
+        }
+      },
+      "child": {
+        "title": "Aggiungi bambino {count}",
+        "description": "Chi stai aggiungendo, e quali dispositivi e TV sono suoi?",
+        "data": {
+          "name": "Nome",
+          "color": "Colore sulla scheda",
+          "clients": "Dispositivi",
+          "tvs": "TV",
+          "plex_user": "Profilo Plex",
+          "age_limit": "Limite di età TV",
+          "budget": "Tempo di schermo giornaliero",
+          "bedtime": "Ora di dormire",
+          "wake_time": "Ora della sveglia"
+        },
+        "data_description": {
+          "clients": "Dall'elenco dei client di AdGuard Home. Dai prima un nome ai dispositivi in AdGuard per trovarli facilmente, oppure sceglili per indirizzo.",
+          "tvs": "TV e box di streaming in Home Assistant. Tutto ciò che va in onda su questi conta per questo bambino.",
+          "plex_user": "Il suo profilo Plex Home. Tutto ciò che guarda su Plex conta per lui, su qualsiasi TV.",
+          "age_limit": "Ricevi un avviso quando inizia un programma sopra questa classificazione (classificazioni britanniche; quelle USA sono confrontate per età).",
+          "budget": "Minuti al giorno. Ricevi un avviso quando sono finiti. 0 significa nessun limite.",
+          "bedtime": "Internet si mette in pausa a quest'ora mentre l'interruttore Ora di dormire è attivo.",
+          "wake_time": "Internet torna a quest'ora dopo la pausa per la notte."
+        }
+      },
+      "more": {
+        "title": "Bambino aggiunto",
+        "menu_options": {
+          "child": "Aggiungi un altro bambino",
+          "alerts": "Avanti: avvisi"
+        }
+      },
+      "alerts": {
+        "title": "Avvisi",
+        "data": {
+          "notify_service": "Invia avvisi a",
+          "alerts": "Avvisami quando un bambino…",
+          "services": "Pulsanti di blocco app"
+        },
+        "data_description": {
+          "notify_service": "Qualsiasi servizio di notifica: l'app Home Assistant, Gotify, Telegram, e-mail…",
+          "services": "Ognuno diventa un interruttore di blocco per ogni bambino."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossibile raggiungere AdGuard Home. Controlla indirizzo e porta.",
+      "invalid_auth": "AdGuard Home non ha accettato nome utente o password.",
+      "name_required": "Dai un nome al bambino.",
+      "name_taken": "Esiste già un bambino con questo nome.",
+      "client_taken": "Uno di questi dispositivi appartiene già a un altro bambino.",
+      "nothing_to_watch": "Scegli almeno un dispositivo, una TV o un profilo Plex."
+    },
+    "abort": {
+      "already_configured": "Questo AdGuard Home è già configurato in Kid Watch."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opzioni di Kid Watch",
+        "menu_options": {
+          "add_child": "Aggiungi un bambino",
+          "edit_pick": "Modifica un bambino",
+          "remove_child": "Rimuovi un bambino",
+          "alerts": "Avvisi e pulsanti di blocco",
+          "connection": "Connessione"
+        }
+      },
+      "add_child": {
+        "title": "Aggiungi un bambino",
+        "data": {
+          "name": "Nome",
+          "color": "Colore sulla scheda",
+          "clients": "Dispositivi",
+          "tvs": "TV",
+          "plex_user": "Profilo Plex",
+          "age_limit": "Limite di età TV",
+          "budget": "Tempo di schermo giornaliero",
+          "bedtime": "Ora di dormire",
+          "wake_time": "Ora della sveglia"
+        },
+        "data_description": {
+          "clients": "Dall'elenco dei client di AdGuard Home. Dai prima un nome ai dispositivi in AdGuard per trovarli facilmente, oppure sceglili per indirizzo.",
+          "tvs": "TV e box di streaming in Home Assistant. Tutto ciò che va in onda su questi conta per questo bambino.",
+          "plex_user": "Il suo profilo Plex Home. Tutto ciò che guarda su Plex conta per lui, su qualsiasi TV.",
+          "age_limit": "Ricevi un avviso quando inizia un programma sopra questa classificazione (classificazioni britanniche; quelle USA sono confrontate per età).",
+          "budget": "Minuti al giorno. Ricevi un avviso quando sono finiti. 0 significa nessun limite.",
+          "bedtime": "Internet si mette in pausa a quest'ora mentre l'interruttore Ora di dormire è attivo.",
+          "wake_time": "Internet torna a quest'ora dopo la pausa per la notte."
+        }
+      },
+      "edit_pick": {
+        "title": "Modifica un bambino",
+        "data": {
+          "child": "Bambino"
+        }
+      },
+      "edit_child": {
+        "title": "Modifica {name}",
+        "data": {
+          "name": "Nome",
+          "color": "Colore sulla scheda",
+          "clients": "Dispositivi",
+          "tvs": "TV",
+          "plex_user": "Profilo Plex",
+          "age_limit": "Limite di età TV",
+          "budget": "Tempo di schermo giornaliero",
+          "bedtime": "Ora di dormire",
+          "wake_time": "Ora della sveglia"
+        },
+        "data_description": {
+          "clients": "Dall'elenco dei client di AdGuard Home. Dai prima un nome ai dispositivi in AdGuard per trovarli facilmente, oppure sceglili per indirizzo.",
+          "tvs": "TV e box di streaming in Home Assistant. Tutto ciò che va in onda su questi conta per questo bambino.",
+          "plex_user": "Il suo profilo Plex Home. Tutto ciò che guarda su Plex conta per lui, su qualsiasi TV.",
+          "age_limit": "Ricevi un avviso quando inizia un programma sopra questa classificazione (classificazioni britanniche; quelle USA sono confrontate per età).",
+          "budget": "Minuti al giorno. Ricevi un avviso quando sono finiti. 0 significa nessun limite.",
+          "bedtime": "Internet si mette in pausa a quest'ora mentre l'interruttore Ora di dormire è attivo.",
+          "wake_time": "Internet torna a quest'ora dopo la pausa per la notte."
+        }
+      },
+      "remove_child": {
+        "title": "Rimuovi un bambino",
+        "description": "I suoi sensori, interruttori e la cronologia di oggi vengono rimossi. Le impostazioni di AdGuard restano come sono.",
+        "data": {
+          "child": "Bambino"
+        }
+      },
+      "alerts": {
+        "title": "Avvisi e pulsanti di blocco",
+        "data": {
+          "notify_service": "Invia avvisi a",
+          "alerts": "Avvisami quando un bambino…",
+          "services": "Pulsanti di blocco app"
+        },
+        "data_description": {
+          "notify_service": "Qualsiasi servizio di notifica: l'app Home Assistant, Gotify, Telegram, e-mail…",
+          "services": "Ognuno diventa un interruttore di blocco per ogni bambino."
+        }
+      },
+      "connection": {
+        "title": "Connessione",
+        "data": {
+          "host": "Indirizzo di AdGuard Home",
+          "port": "Porta",
+          "username": "Nome utente",
+          "password": "Password",
+          "ssl": "Usa HTTPS",
+          "verify_ssl": "Verifica il certificato HTTPS"
+        },
+        "data_description": {
+          "host": "Indirizzo IP o nome host, senza http://",
+          "port": "La porta della pagina web di AdGuard Home (spesso 80 o 3000)."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossibile raggiungere AdGuard Home. Controlla indirizzo e porta.",
+      "invalid_auth": "AdGuard Home non ha accettato nome utente o password.",
+      "name_required": "Dai un nome al bambino.",
+      "name_taken": "Esiste già un bambino con questo nome.",
+      "client_taken": "Uno di questi dispositivi appartiene già a un altro bambino.",
+      "nothing_to_watch": "Scegli almeno un dispositivo, una TV o un profilo Plex."
+    },
+    "abort": {
+      "cannot_connect": "Impossibile raggiungere AdGuard Home. Controlla indirizzo e porta."
+    }
+  },
+  "selector": {
+    "color": {
+      "options": {
+        "pink": "Rosa",
+        "blue": "Blu",
+        "green": "Verde",
+        "orange": "Arancione",
+        "purple": "Viola",
+        "teal": "Verde acqua"
+      }
+    },
+    "age_limit": {
+      "options": {
+        "U": "U (per tutti)",
+        "PG": "PG",
+        "12": "12",
+        "15": "15",
+        "18": "18 (nessun limite)"
+      }
+    },
+    "alert_type": {
+      "options": {
+        "site": "…prova ad aprire un sito per adulti o pericoloso bloccato",
+        "tv": "…avvia un programma sopra il suo limite di età",
+        "blocked": "…prova un'app che hai bloccato",
+        "budget": "…esaurisce il tempo di schermo",
+        "bedtime": "…viene messo in pausa per la notte"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "status": {
+        "name": "Stato"
+      },
+      "screen_time": {
+        "name": "Tempo di schermo oggi"
+      },
+      "alerts": {
+        "name": "Avvisi oggi"
+      }
+    },
+    "switch": {
+      "pause": {
+        "name": "Metti in pausa Internet"
+      },
+      "bedtime": {
+        "name": "Ora di dormire"
+      },
+      "safesearch": {
+        "name": "SafeSearch"
+      },
+      "stop_over_age": {
+        "name": "Ferma la TV non adatta all'età"
+      },
+      "block_service": {
+        "name": "Blocca {service}"
+      }
+    }
+  }
+}

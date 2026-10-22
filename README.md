@@ -2,7 +2,7 @@
 
 See what each of your children is watching or using right now, how much screen time they've had today, and what they've been up to this evening. Pause their internet, set a bedtime, turn on SafeSearch or block apps with one tap. Kid Watch works with [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome), your TVs, and Plex.
 
-> **Beta (v0.1.1).** It has been tested against a real AdGuard Home (v0.107.79) with Home Assistant 2026.9 and 2026.10, first in a lab and now in a real home. Please [open an issue](https://github.com/spikey1965/ha-kid-watch/issues) if something doesn't work on your setup.
+> **Beta (v0.2.0).** It has been tested against a real AdGuard Home (v0.107.79) with Home Assistant 2026.9 and 2026.10, first in a lab and now in a real home. Please [open an issue](https://github.com/spikey1965/ha-kid-watch/issues) if something doesn't work on your setup.
 
 <p>
 <img src="images/card.png" width="360" alt="Kid Watch card: Emma is watching Stranger Things on Netflix, rated 15, with screen time, controls and a timeline">
@@ -28,6 +28,17 @@ See what each of your children is watching or using right now, how much screen t
   - uses up their screen time;
   - is paused for bedtime.
 - Everything stays on your network. Kid Watch only talks to your own AdGuard Home and Home Assistant.
+
+## Languages
+
+Kid Watch speaks **English, Deutsch, Français, Italiano, Español, Nederlands, Polski and Português** (including Brazilian Portuguese).
+
+- The **setup screens** and **entity names** follow each user's language in Home Assistant.
+- The **card** follows your language too. To choose one for a card, add `language: de` (`en`, `de`, `fr`, `it`, `es`, `nl`, `pl`, `pt`, `pt-BR`).
+- **Alerts and the timeline** use Home Assistant's system language (**Settings → System → General**), because they're written once for everyone.
+- Age ratings (U, PG, 12, 15, 18, TV-MA…) stay as they are, since they're official names.
+
+Spotted a wrong word in your language? Please [open an issue](https://github.com/spikey1965/ha-kid-watch/issues).
 
 ## What it can and can't see
 
@@ -97,6 +108,7 @@ Options:
 | `title` | `Kid Watch` | Card title |
 | `children` | all | Only show these children, e.g. `[Emma]` |
 | `popup` | `true` | Pop up the TV when a show above a child's age limit starts |
+| `language` | your HA language | Card language: `en`, `de`, `fr`, `it`, `es`, `nl`, `pl`, `pt` or `pt-BR` |
 
 <p>
 <img src="images/tvs.png" width="360" alt="TVs tab: every TV and who is watching">
@@ -105,7 +117,7 @@ Options:
 
 ## Entities
 
-Each child gets a device with these entities:
+Each child gets a device with these entities. The IDs below are for English; in another language Home Assistant names them in that language (for example `switch.emma_tiktok_sperren` in German).
 
 | Entity | What it is |
 |---|---|
