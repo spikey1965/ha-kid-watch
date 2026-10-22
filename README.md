@@ -2,7 +2,7 @@
 
 See what each of your children is watching or using right now, how much screen time they've had today, and what they've been up to this evening. Pause their internet, set a bedtime, turn on SafeSearch or block apps with one tap. Kid Watch works with [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome), your TVs, and Plex.
 
-> **Beta (v0.1.0).** It has been tested against a real AdGuard Home (v0.107.79) and Home Assistant 2026.9, using simulated devices and TVs. Please [open an issue](https://github.com/spikey1965/ha-kid-watch/issues) if something doesn't work on your setup.
+> **Beta (v0.1.1).** It has been tested against a real AdGuard Home (v0.107.79) with Home Assistant 2026.9 and 2026.10, first in a lab and now in a real home. Please [open an issue](https://github.com/spikey1965/ha-kid-watch/issues) if something doesn't work on your setup.
 
 <p>
 <img src="images/card.png" width="360" alt="Kid Watch card: Emma is watching Stranger Things on Netflix, rated 15, with screen time, controls and a timeline">
@@ -38,6 +38,17 @@ See what each of your children is watching or using right now, how much screen t
   - Many smart TVs (Samsung, LG) only report the app name.
 - **It can't see** single pages, searches, or which YouTube video is playing. HTTPS hides those.
 - **It can't see** anything on mobile data, or on a device that uses its own DNS (private DNS, VPNs, iCloud Private Relay). For phones away from home, use Apple Screen Time or Google Family Link alongside Kid Watch.
+
+### Stop iCloud Private Relay hiding a child's browsing
+
+On iPhones, iPads and Macs with iCloud+, Private Relay sends Safari's lookups through Apple, so AdGuard (and Kid Watch) never sees them. Kid Watch tags every child's AdGuard client `user_child`, so you can switch Private Relay off for the children only. In AdGuard Home → **Filters → Custom filtering rules**, add:
+
+```
+||mask.icloud.com^$ctag=user_child
+||mask-h2.icloud.com^$ctag=user_child
+```
+
+Their devices then show "Private Relay is unavailable on this network" at home and use your normal DNS. iCloud itself (Photos, backups, iMessage, icloud.com) keeps working, and adults' devices keep Private Relay.
 - **Age ratings** come from what the TV or Plex reports. Shows without a rating never trigger an alert.
 
 ## What you need

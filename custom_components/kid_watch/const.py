@@ -3,7 +3,7 @@
 from datetime import timedelta
 
 DOMAIN = "kid_watch"
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 PLATFORMS = ["sensor", "switch"]
 SCAN_INTERVAL = timedelta(seconds=60)
@@ -64,3 +64,6 @@ EVENT_ALERT = "kid_watch_alert"
 NOW_WINDOW = timedelta(minutes=3)
 TIMELINE_MAX = 100
 ALERT_DEDUPE = timedelta(minutes=10)
+
+# AdGuard tag put on every child's client, for tag rules such as ||mask.icloud.com^$ctag=user_child
+CHILD_TAG = "user_child"

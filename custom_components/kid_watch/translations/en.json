@@ -42,7 +42,7 @@
         }
       },
       "more": {
-        "title": "{name} added",
+        "title": "Child added",
         "menu_options": {
           "child": "Add another child",
           "alerts": "Next: alerts"

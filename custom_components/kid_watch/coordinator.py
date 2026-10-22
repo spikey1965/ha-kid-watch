@@ -31,6 +31,7 @@ from .const import (
     C_PLEX,
     C_TVS,
     C_WAKE,
+    CHILD_TAG,
     CLIENT_IP_PREFIX,
     CLIENT_NAME_PREFIX,
     CONF_ALERTS,
@@ -83,7 +84,7 @@ class KidWatchCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
         self._flags: dict[str, dict[str, Any]] = {}
         self._last_query: datetime | None = None
         self._last_update: datetime | None = None
-        self._last_seen: dict[str, tuple[datetime, str, str, str]] = {}
+        self._last_seen: dict[str, tuple[datetime, str, str, str, str]] = {}
         self._clients: dict[str, Any] = {"clients": [], "auto_clients": []}
         self._rules: list[str] = []
         self._global_blocked: list[str] = []
@@ -190,11 +191,29 @@ class KidWatchCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
                 await self.api.add_client({
                     "name": name, "ids": [ip], "use_global_settings": True, "use_global_blocked_services": True,
                     **await self._global_protection(),
-                    "safe_search": {**SAFE_SEARCH_ALL, "enabled": False}, "blocked_services": [], "upstreams": [], "tags": [],
+                    "safe_search": {**SAFE_SEARCH_ALL, "enabled": False}, "blocked_services": [], "upstreams": [], "tags": [CHILD_TAG],
                 })
                 names.add(name)
             self._clients = await self.api.clients()
         return sorted(names)
+
+    async def _tag_children(self) -> None:
+        """Give every child's AdGuard client the user_child tag, so tag rules (e.g. blocking iCloud Private Relay) reach them."""
+        names = {n for c in self.children for n in self._child_clients(c[C_ID])[1]}
+        changed = False
+        for name in sorted(names):
+            pc = self._persistent(name)
+            if pc is None or CHILD_TAG in (pc.get("tags") or []):
+                continue
+            new = copy.deepcopy(pc)
+            new["tags"] = [*(pc.get("tags") or []), CHILD_TAG]
+            try:
+                await self.api.update_client(name, new)
+                changed = True
+            except AdGuardError as err:
+                _LOGGER.warning("Could not tag %s as %s: %s", name, CHILD_TAG, err)
+        if changed:
+            self._clients = await self.api.clients()
 
     def _persistent(self, name: str) -> dict[str, Any] | None:
         return next((pc for pc in self._clients["clients"] if pc["name"] == name), None)
@@ -204,6 +223,7 @@ class KidWatchCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
     async def _async_update_data(self) -> dict[str, dict[str, Any]]:
         try:
             self._clients = await self.api.clients()
+            await self._tag_children()
             self._rules = await self.api.user_rules()
             self._global_blocked = await self._global_blocked_ids()
             entries = await self._pull_log()
@@ -295,10 +315,11 @@ class KidWatchCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
             day["minutes"][str(minute)] = day["minutes"].get(str(minute)) or cat
             day["apps"].setdefault(name, {"cat": cat, "mins": set()})["mins"].add(minute)
             last = self._last_seen.get(cid)
+            key = e.get("client") or device   # the device's address: stays the same when AdGuard renames it
             if not last or local >= last[0]:
-                if not last or last[1] != name or last[3] != device or local - last[0] > NOW_WINDOW:
+                if not last or last[1] != name or last[4] != key or local - last[0] > NOW_WINDOW:
                     self._timeline(cid, local, cat, name, device)
-                self._last_seen[cid] = (local, name, cat, device)
+                self._last_seen[cid] = (local, name, cat, device, key)
         elif domain and not is_noise(domain):
             day["apps"].setdefault(site_of(domain), {"cat": "web", "mins": set()})["mins"].add(minute)
 
@@ -522,6 +543,8 @@ class KidWatchCoordinator(DataUpdateCoordinator[dict[str, dict[str, Any]]]):
                     continue
                 new = copy.deepcopy(pc)
                 change(new)
+                if CHILD_TAG not in (new.get("tags") or []):
+                    new["tags"] = [*(new.get("tags") or []), CHILD_TAG]
                 await self.api.update_client(name, new)
             self._clients = await self.api.clients()
         await self.async_refresh()

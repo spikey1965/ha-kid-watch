@@ -1,6 +1,6 @@
 // Kid Watch card: each child's now-playing, screen time, timeline, TVs, top sites and alerts, with one-tap controls.
 // Served by the Kid Watch integration; reads the "Status" sensor of every child it set up.
-const KW_VERSION = "0.1.0";
+const KW_VERSION = "0.1.1";
 
 const KW_CATS = {
   video: ["Video", "#e5484d"], social: ["Social", "#8e5cf7"], gaming: ["Gaming", "#2f9e6b"], school: ["School", "#2f6fdc"],
