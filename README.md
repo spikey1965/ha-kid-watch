@@ -2,7 +2,7 @@
 
 See what each of your children is watching or using right now, how much screen time they've had today, and what they've been up to this evening. Pause their internet, set a bedtime, turn on SafeSearch or block apps with one tap. Kid Watch works with [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome), your TVs, and Plex.
 
-> **Beta (v0.2.0).** It has been tested against a real AdGuard Home (v0.107.79) with Home Assistant 2026.9 and 2026.10, first in a lab and now in a real home. Please [open an issue](https://github.com/spikey1965/ha-kid-watch/issues) if something doesn't work on your setup.
+> **Beta (v0.2.0).** It has been tested against a real AdGuard Home (v0.107.79) with Home Assistant 2026.9 and 2026.10, first in a sandbox and now in a real home. Please [open an issue](https://github.com/spikey1965/ha-kid-watch/issues) if something doesn't work on your setup.
 
 <p>
 <img src="images/card.png" width="360" alt="Kid Watch card: Emma is watching Stranger Things on Netflix, rated 15, with screen time, controls and a timeline">
