@@ -72,10 +72,17 @@ Their devices then show "Private Relay is unavailable on this network" at home a
 
 ## Install
 
-**With HACS:**
-1. HACS → ⋮ → **Custom repositories** → add `https://github.com/spikey1965/ha-kid-watch`, type **Integration**.
-2. Search for **Kid Watch** → **Download**.
-3. Restart Home Assistant.
+### Marketplace (recommended)
+
+1. Go to **Settings → Marketplace** and click **Add from link**. This asks you to connect GitHub.
+2. Paste `https://github.com/spikey1965/ha-kid-watch` and choose the type **Integration** if asked.
+3. Find **Kid Watch** under **New**, open it and click **Install**. Restart Home Assistant.
+
+Because it's a beta, Marketplace shows a short code such as `f5fa069` instead of a version number, which is normal. To get the numbered beta instead, open the **⋮ menu → Include pre-releases → Include** before you install.
+
+The first time you use Marketplace, tick **I understand the risks and agree** and click **Continue**.
+
+**On a version older than 2026.11?** Marketplace is still called HACS there. Use **Download** in place of Install and **⋮ → Custom repositories** in place of Add from link.
 
 **By hand:** copy `custom_components/kid_watch` into your `config/custom_components/` folder and restart Home Assistant.
 
